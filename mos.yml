@@ -1,0 +1,56 @@
+author: mongoose-os
+description: A JS-enabled demo Mongoose OS firmware
+# arch: PLATFORM
+version: 1.0
+manifest_version: 2017-05-18
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+config_schema:
+  - ["mqtt.server", "iot.eclipse.org:1883"]
+  - ["i2c.enable", true]
+  - ["pins", "o", {title: "Pins layout"}]
+  - ["pins.scale", "o", {title: "Scale Pins"}]
+  - ["pins.scale.rx", "i", -1, {title: "RX pin to openscale"}]
+  - ["pins.scale.tx", "i", -1, {title: "TX pin to openscale"}]
+  - ["pins.led", "i", -1, {title: "LED GPIO pin"}]
+  - ["pins.button", "i", -1, {title: "Button GPIO pin"}]
+  - ["pins.button", "i", -1, {title: "Button GPIO pin"}]
+  - ["scale", "o", {title: "Scale Config"}]
+  - ["scale.capacity", "s", "0", {title: "Scale Capacity"}]
+  - ["bt.enable", true]
+  - ["bt.keep_enabled", true]
+
+conds:
+  - when: mos.platform == "esp32"
+    apply:
+      config_schema:
+        - ["pins.led", 21]
+        - ["pins.button", 0]
+        - ["pins.scale.rx", 27]
+        - ["pins.scale.tx", 26]
+  - when: mos.platform == "esp8266"
+    apply:
+      config_schema:
+        - ["pins.led", 2]
+        - ["pins.button", 0]
+  - when: mos.platform == "cc3200"
+    apply:
+      config_schema:
+        - ["pins.led", 64]
+        - ["pins.button", 15]
+  - when: mos.platform == "cc3220"
+    apply:
+      config_schema:
+        - ["pins.led", 64]
+        - ["pins.button", 15]
+
+tags:
+  - js
+
+filesystem:
+  - fs
+
+libs:
+  - origin: https://github.com/mongoose-os-libs/js-demo-bundle
