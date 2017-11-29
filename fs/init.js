@@ -72,11 +72,11 @@ UART.setDispatcher(uartNo, function(uartNo) {
       let ok = MQTT.pub(topic, JSON.stringify(d), 1); 
     } else {
       print('not json');
-      print(UART.read(uartNo));
+      let ok = MQTT.pub(topic, JSON.stringify({type: 'config', msg: ud}), 1); 
+      print(ud);
     }
   } 
 }, null); 
  
 // Enable Rx 
 UART.setRxEnabled(uartNo, true); 
-
